@@ -14,7 +14,8 @@ class Chat extends Component {
       hasName: false,
       messages: [],
       messageInput: '',
-      sessionToken: ''
+      sessionToken: '',
+      firstMessage: true
     };
 
     this.updateUsername = this.updateUsername.bind(this);
@@ -24,11 +25,11 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    socket.on('connection', (sessionToken) => {
-      this.setState({sessionToken});
-    });
-
     socket.on('chat message', (messageText) => {
+      if(this.state.firstMessage) {
+        this.setState({sessionToken});
+      }
+
       const message = this.createMessageObj('QUAL-E', messageText);
       this.addMessageToWindow(message);
     });
