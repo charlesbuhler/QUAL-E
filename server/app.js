@@ -2,16 +2,9 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-// TODO: Extract chat client, services, etc.
+const LeadEngine = require('./engines/leadEngine.js');
 
-var ChatClient = function() {
-  
-  this.getResponseFromMessage = function(message) {
-    return 'you said ' + message + '. ' + 'I say hi!';
-  }
-};
-
-var chatClient = new ChatClient();
+const leadEngine = LeadEngine.init();
 
 // TODO: Replace with react app
 app.get('/', function(req, res){
@@ -19,12 +12,20 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
+  var sessionToken = leadEngine.createLeadAndSession();
+  io.emit('chat message', sessionToken);
+  
   socket.on('chat message', function(message){
-    
-    var response = chatClient.getResponseFromMessage(message);
 
-    io.emit('chat message', response);
+    var responseMessage = leadEngine.updateLeadFromMessage(message);
+    io.emit('chat message', responseMessage);
   });
+
+  socket.on('disconnect', function() {
+      var responseMessage = leadEngine.finalizeLead();
+      io.emit('chat message', responseMessage);
+  });
+
 });
 
 http.listen(3000, function(){
