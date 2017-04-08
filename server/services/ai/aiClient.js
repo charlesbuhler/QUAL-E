@@ -11,12 +11,8 @@ AIClient.prototype.sendRequest = function (message, sessionToken) {
       sessionId: sessionToken
     }
   );
-  
-  request.on('response', function (response) {
-    console.log('response', response);
-  });
 
-  request.end();
+  return request;
 }
 
 
