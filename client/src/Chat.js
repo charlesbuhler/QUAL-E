@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Messages from './Messages';
 import MessageInput from './MessageInput';
+import UsernameInput from './UsernameInput';
 
 class Chat extends Component {
   constructor(props) {
@@ -16,15 +17,13 @@ class Chat extends Component {
     this.submitMessages = this.submitMessages.bind(this);
   }
 
-  updateUsername(e) {
-    this.setState({ username: e.target.value });
+  updateUsername(username) {
+    this.setState({ username });
   }
 
-  submitUsername(e) {
-    e.preventDefault();
-
+  submitUsername(username) {
     this.setState({
-      username: this.state.username,
+      username,
       hasName: true
     });
   }
@@ -47,24 +46,22 @@ class Chat extends Component {
   }
 
   render() {
+    let input;
+
     if (!this.state.hasName) {
-      return (
-        <form onSubmit={this.submitUsername}>
-          <p>Enter your name to begin</p>
-          <input
-            type="text"
-            onChange={this.updateUsername}
-            value={this.state.username}
-            required />
-          <input type="submit" value="Go" />
-        </form>
-      )
+      input = <UsernameInput
+        submitUsername={this.submitUsername}
+        updateUsername={this.updateUsername}
+        username={this.state.username}
+      />
+    } else {
+      input = <MessageInput submitMessages={this.submitMessages} />
     }
 
     return (
-      <div>
+      <div className="container">
         <Messages messageList={this.state.messages} />
-        <MessageInput submitMessages={this.submitMessages} />
+        {input}
       </div>
     );
   }
