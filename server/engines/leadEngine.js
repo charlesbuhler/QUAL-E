@@ -6,8 +6,12 @@ const sendEmail = require('../services/email/sendEmail.js');
 
 function LeadEngine() {
   this.paramMap = {
-     // "good_roofs": "roofType",
-     "given-name": "name"
+      "given-name": "name",
+      "address": "address",
+      "good_ownership": "ownership",
+      "good_hometypes": "residenceType",
+      "goodroof": "roofType",
+      "date-time": "apptDateTime"
   };
 
   this.leads = {}; //<SessionId, Lead>
@@ -40,13 +44,15 @@ LeadEngine.prototype.updateLeadFromMessage = function(nlpResult, sessionToken) {
 
   var params = nlpResult.params;
   for (var key in params) {
-    if (this.paramMap[key]) {
+    if (this.paramMap[key] && params[key] !== '') {
       currentLead.set(this.paramMap[key], params[key]);
     }
   }
 
+  console.log('params', params);
   console.log('currentLead', currentLead);
-  console.log('isCompleted(currentLead, this.paramMap)', isCompleted(currentLead, this.paramMap));
+  console.log('isCompleted', isCompleted(currentLead, this.paramMap));
+  console.log('');
   
   if(isCompleted(currentLead, this.paramMap)) {
     
