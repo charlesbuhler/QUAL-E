@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Messages from './Messages';
 import MessageInput from './MessageInput';
 import UsernameInput from './UsernameInput';
+import io from 'socket.io-client';
+
+let socket = io.connect();
 
 class Chat extends Component {
   constructor(props) {
@@ -15,6 +18,12 @@ class Chat extends Component {
     this.updateUsername = this.updateUsername.bind(this);
     this.submitUsername = this.submitUsername.bind(this);
     this.submitMessages = this.submitMessages.bind(this);
+  }
+
+  componentDidMount() {
+    socket.on('chat message', (data) => {
+      console.log('data', data);
+    });
   }
 
   updateUsername(username) {
@@ -34,7 +43,7 @@ class Chat extends Component {
       username,
       message
     }
-
+    socket.emit()
     this.addMessageToWindow(messageObj);
   }
 

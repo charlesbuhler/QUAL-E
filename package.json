@@ -8,13 +8,15 @@
     "test": "node client/scripts/test.js --env=jsdom"
   },
   "dependencies": {
-    "express": "4.15.2",
+    "cors": "^2.8.3",
     "email-templates": "^2.5.4",
+    "express": "4.15.2",
     "handlebars": "^4.0.6",
     "nodemailer": "^4.0.0",
     "react": "^15.5.2",
     "react-dom": "^15.5.2",
-    "socket.io": "1.7.3"
+    "socket.io": "1.7.3",
+    "socket.io-client": "^1.7.3"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
