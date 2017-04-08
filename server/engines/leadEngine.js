@@ -1,6 +1,7 @@
 'use strict';
 const lead = require('../models/lead.js');
 const aiClient = require('../services/ai/aiClient.js');
+const jsonToNlp = require('../serializers/JsonToNlp.js');
 
 function LeadEngine() {}
 
@@ -14,13 +15,13 @@ LeadEngine.prototype.createLeadAndSession = function(chatMessage) {
   return "created with session token: " + sessionToken;
 }
 
-LeadEngine.prototype.updateLeadFromMessage = function(chatMessage) {
+LeadEngine.prototype.updateLeadFromMessage = function(message) {
   // Send message to AIClient
   // Update lead from AIClient response
-
-  aiClient.sendRequest(chatMessage, '123');
   
-  return "Hey there friend. I just got your " + chatMessage + " message. Thanks!";
+  var nlp = jsonToNlp(message);
+  
+  return nlp.message;
 }
 
 LeadEngine.prototype.finalizeLead = function() {
