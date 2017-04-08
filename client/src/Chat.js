@@ -27,7 +27,7 @@ class Chat extends Component {
   componentDidMount() {
     socket.on('chat message', (messageText) => {
       if(this.state.firstMessage) {
-        this.setState({sessionToken});
+        this.setState({sessionToken: messageText});
       }
 
       const message = this.createMessageObj('QUAL-E', messageText);
