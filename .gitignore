@@ -7,7 +7,7 @@
 /coverage
 
 # production
-/build
+/client/build
 
 # credentials
 AI_CONFIG.json
