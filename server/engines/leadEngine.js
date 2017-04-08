@@ -20,7 +20,7 @@ LeadEngine.prototype.createLeadAndSession = function(chatMessage) {
   
   console.log(leadTiedToSession.get('sessionToken'));
 
-  return "created with session token: " + sessionToken;
+  return sessionToken;
 }
 
 LeadEngine.prototype.updateLeadFromMessage = function(nlpResult, sessionToken) {
@@ -43,7 +43,7 @@ LeadEngine.prototype.updateLeadFromMessage = function(nlpResult, sessionToken) {
 
 LeadEngine.prototype.finalizeLead = function(sessionToken) {
   var currentLead = this.leads[sessionToken];
-  sendEmail("tima.haines@gmail.com", currentLead);
+  // sendEmail("tima.haines@gmail.com", currentLead);
 
   return "You're qualified! Someone will be contacting you shortly!";
 }

@@ -2,7 +2,7 @@ var NlpResult = require("../models/nlpResult.js");
 
 module.exports = function(result) {
     var message, action, params;
-    
+
     var actionTypes = {
         "UNKNOWN": "UNKNOWN",
         "CLARIFY": "CLARIFY",
@@ -15,7 +15,7 @@ module.exports = function(result) {
         return;
     }
 
-    message  = result.fulliment && result.fulliment.speech;
+    message  = result.fulfillment && result.fulfillment.speech;
     params   = result.parameters;
 
     if (result.action.includes("clarification")) {

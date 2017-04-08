@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var path = require('path');
 var leadEngine = require('./engines/leadEngine.js');
 var AI = require('./services/ai/aiClient.js');
+var jsonToNlp = require('./serializers/JsonToNlp.js');
 
 app.use(express.static(path.resolve(__dirname + './../client/build')));
 
@@ -16,17 +17,24 @@ io.on('connection', function(socket){
   var sessionToken = leadEngine.createLeadAndSession();
   io.emit('chat message', sessionToken);
 
-  socket.on('chat message', function(message){
+  socket.on('chat message', function(userResponse){
     
-    var request = AI.sendRequest(message, sessionToken);
+    var request = AI.sendRequest(userResponse.message, userResponse.sessionToken);
     
     request.on('response', function(response) {
 
-      var nlpRsult = jsonToNlp(response.result);
-      var responseMessage = leadEngine.updateLeadFromMessage(nlpRsult);
+      var nlpResult = jsonToNlp(response.result);
+      var responseMessage = leadEngine.updateLeadFromMessage(nlpResult);
 
       io.emit('chat message', responseMessage);
     });
+
+    request.on('error', function(response) {
+
+      console.log('Error', response);
+    });
+
+    request.end();
   });
 
   socket.on('disconnect', function() {
