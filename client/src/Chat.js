@@ -13,11 +13,13 @@ class Chat extends Component {
       username: '',
       hasName: false,
       messages: [],
+      messageInput: ''
     };
 
     this.updateUsername = this.updateUsername.bind(this);
     this.submitUsername = this.submitUsername.bind(this);
-    this.submitMessages = this.submitMessages.bind(this);
+    this.updateMessage = this.updateMessage.bind(this);
+    this.submitMessage = this.submitMessage.bind(this);
   }
 
   componentDidMount() {
@@ -37,13 +39,22 @@ class Chat extends Component {
     });
   }
 
-  submitMessages(message) {
-    const { username } = this.state;
+  updateMessage(e) {
+    const message = e.target.value;
+
+    this.setState({ messageInput: message});
+  }
+
+  submitMessage(e) {
+    e.preventDefault();
+
+    const { username, messageInput } = this.state;
     const messageObj = {
       username,
-      message
-    }
-    socket.emit()
+      message: messageInput
+    };
+
+    socket.emit(messageObj);
     this.addMessageToWindow(messageObj);
   }
 
@@ -51,7 +62,7 @@ class Chat extends Component {
     const { messages } = this.state;
 
     messages.push(messageObj);
-    this.setState({ messages });
+    this.setState({ messages, messageInput: '' });
   }
 
   render() {
@@ -64,7 +75,11 @@ class Chat extends Component {
         username={this.state.username}
       />
     } else {
-      input = <MessageInput submitMessages={this.submitMessages} />
+      input = <MessageInput
+        messageInput={this.state.messageInput}
+        updateMessage={this.updateMessage}
+        submitMessage={this.submitMessage}
+      />
     }
 
     return (
