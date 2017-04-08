@@ -4,6 +4,8 @@ const aiClient = require('../services/ai/aiClient.js');
 const jsonToNlp = require('../serializers/JsonToNlp.js');
 const sendEmail = require('../services/email/sendEmail.js');
 
+const APP_CONFIG = require('../../APP_CONFIG.json');
+
 function LeadEngine() {
   this.paramMap = {
       "given-name": "name",
@@ -58,7 +60,7 @@ LeadEngine.prototype.updateLeadFromMessage = function(nlpResult, sessionToken) {
   
   if(isCompleted(currentLead, this.paramMap)) {
     
-    sendEmail("tima.haines@gmail.com", currentLead);
+    sendEmail(APP_CONFIG.lead_receiver_email, currentLead);
     return "You're qualified! Someone will be contacting you shortly!";
   }
   
@@ -67,7 +69,7 @@ LeadEngine.prototype.updateLeadFromMessage = function(nlpResult, sessionToken) {
 
 LeadEngine.prototype.finalizeLead = function(sessionToken) {
   var currentLead = this.leads[sessionToken];
-  sendEmail("tima.haines@gmail.com", currentLead);
+  sendEmail(APP_CONFIG.lead_receiver_email, currentLead);
   return "You're qualified! Someone will be contacting you shortly!";
 }
 

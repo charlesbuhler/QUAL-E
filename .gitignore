@@ -10,7 +10,7 @@
 /client/build
 
 # credentials
-AI_CONFIG.json
+APP_CONFIG.json
 
 # misc
 .DS_Store

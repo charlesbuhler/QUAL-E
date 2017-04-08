@@ -1,8 +1,8 @@
 const apiai = require('apiai');
 
-const AI_CONFIG = require('../../../AI_CONFIG.json');
+const APP_CONFIG = require('../../../APP_CONFIG.json');
 
-var setConstApp = apiai(AI_CONFIG.ai_client_access_token);
+var setConstApp = apiai(APP_CONFIG.ai_client_access_token);
 
 function AIClient() {}
 
