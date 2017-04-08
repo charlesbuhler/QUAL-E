@@ -23,8 +23,9 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    socket.on('chat message', (data) => {
-      console.log('data', data);
+    socket.on('chat message', (messageText) => {
+      const message = this.createMessageObj('QUAL-E', messageText);
+      this.addMessageToWindow(message);
     });
   }
 
@@ -49,20 +50,25 @@ class Chat extends Component {
     e.preventDefault();
 
     const { username, messageInput } = this.state;
-    const messageObj = {
-      username,
-      message: messageInput
-    };
+    const message = this.createMessageObj(username, messageInput);
 
-    socket.emit(messageObj);
-    this.addMessageToWindow(messageObj);
+    socket.emit('chat message', message);
+    this.addMessageToWindow(message);
   }
+
+  createMessageObj = (username, messageText) => (
+      {
+        username,
+        message: messageText
+      }
+  );
+
 
   addMessageToWindow(messageObj) {
     const { messages } = this.state;
 
     messages.push(messageObj);
-    this.setState({ messages, messageInput: '' });
+    this.setState({ messages });
   }
 
   render() {
