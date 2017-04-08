@@ -3,16 +3,12 @@ function Lead(sessionToken) {
   
 }
 
-Lead.prototype.getSessionToken = function () {
-  return this.sessionToken;
+Lead.prototype.set = function(key, value) {
+  this[key] = value;
 }
 
-Lead.prototype.getFullName = function () {
-  return this.fullName;
-}
-
-Lead.prototype.setFullName = function (fullName) {
-  this.fullName = fullName;
+Lead.prototype.get = function(key) {
+  return this[key];
 }
 
 module.exports = Lead;

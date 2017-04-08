@@ -19,9 +19,12 @@ io.on('connection', function(socket){
   socket.on('chat message', function(message){
     var request = AI.sendRequest(message, sessionToken);
     request.on('response', function(result) {
-      result = leadEngine.updateLeadFromMessage(result);
-      console.log('nlp result', result);
-      io.emit('chat message', result.responseMessage);
+      var nlpRsult = jsonToNlp(message);
+      
+      var response = leadEngine.updateLeadFromMessage(nlpRsult);
+      
+      console.log('nlp result', nlpRsult);
+      io.emit('chat message', response);
     });
   });
 
