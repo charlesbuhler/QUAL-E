@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
-import wallEImage from './assets/WALL-E.jpg';
+import logo from './logo.svg';
 import './App.css';
+import Chat from './Chat';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={wallEImage} className="App-logo" alt="WALL-E" />
-          <h2>Welcome to QUAL-E</h2>
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Welcome to React</h2>
         </div>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Chat />
       </div>
     );
   }
