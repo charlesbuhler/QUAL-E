@@ -17,6 +17,9 @@ module.exports = function (recipient, lead) {
     var referral = new EmailTemplate(template);
 
     referral.render(lead, function (err, result) {
+        
+        console.log('lead', lead);
+        
         // result.html
         // result.text
         let mailOptions = {
