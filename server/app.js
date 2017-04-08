@@ -24,7 +24,7 @@ io.on('connection', function(socket){
     request.on('response', function(response) {
 
       var nlpResult = jsonToNlp(response.result);
-      var responseMessage = leadEngine.updateLeadFromMessage(nlpResult);
+      var responseMessage = leadEngine.updateLeadFromMessage(nlpResult, userResponse.sessionToken);
 
       io.emit('chat message', responseMessage);
     });
@@ -38,8 +38,8 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect', function() {
-      var responseMessage = leadEngine.finalizeLead();
-      io.emit('chat message', responseMessage);
+      //var responseMessage = leadEngine.finalizeLead();
+      //io.emit('chat message', responseMessage);
   });
 
 });

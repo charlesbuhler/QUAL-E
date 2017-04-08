@@ -6,19 +6,30 @@ const sendEmail = require('../services/email/sendEmail.js');
 
 function LeadEngine() {
   this.paramMap = {
-     "good_roofs": "roofType" 
+     // "good_roofs": "roofType",
+     "given-name": "name"
   };
 
   this.leads = {}; //<SessionId, Lead>
 }
 
+function isCompleted(lead, paramMap) {
+
+  for (var key in paramMap) {
+    var value = paramMap[key];
+    if (!lead.get(value)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
 LeadEngine.prototype.createLeadAndSession = function(chatMessage) {
   var sessionToken = '123';//Math.floor(100000000 + Math.random() * 900000000);
 
   var leadTiedToSession = new lead(sessionToken);
-  this.leads.sessionToken = leadTiedToSession;
-  
-  console.log(leadTiedToSession.get('sessionToken'));
+  this.leads[sessionToken] = leadTiedToSession;
 
   return sessionToken;
 }
@@ -30,12 +41,17 @@ LeadEngine.prototype.updateLeadFromMessage = function(nlpResult, sessionToken) {
   var params = nlpResult.params;
   for (var key in params) {
     if (this.paramMap[key]) {
-      lead.set(this.paramMap[key], params[key]);
+      currentLead.set(this.paramMap[key], params[key]);
     }
   }
+
+  console.log('currentLead', currentLead);
+  console.log('isCompleted(currentLead, this.paramMap)', isCompleted(currentLead, this.paramMap));
   
-  if (params['good_roofs']) {
-    lead.set(this.paramMap['good_roofs'], params['good_roofs']);
+  if(isCompleted(currentLead, this.paramMap)) {
+    
+    sendEmail("tima.haines@gmail.com", currentLead);
+    return "You're qualified! Someone will be contacting you shortly!";
   }
   
   return nlpResult.response;
@@ -43,8 +59,7 @@ LeadEngine.prototype.updateLeadFromMessage = function(nlpResult, sessionToken) {
 
 LeadEngine.prototype.finalizeLead = function(sessionToken) {
   var currentLead = this.leads[sessionToken];
-  // sendEmail("tima.haines@gmail.com", currentLead);
-
+  sendEmail("tima.haines@gmail.com", currentLead);
   return "You're qualified! Someone will be contacting you shortly!";
 }
 
