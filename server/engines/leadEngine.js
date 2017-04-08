@@ -11,7 +11,8 @@ function LeadEngine() {
       "good_ownership": "ownership",
       "good_hometypes": "residenceType",
       "goodroof": "roofType",
-      "date-time": "apptDateTime"
+      "date-time": "apptDateTime",
+      "phone-number": "phone"
   };
 
   this.leads = {}; //<SessionId, Lead>
@@ -30,7 +31,8 @@ function isCompleted(lead, paramMap) {
 
 
 LeadEngine.prototype.createLeadAndSession = function(chatMessage) {
-  var sessionToken = '123';//Math.floor(100000000 + Math.random() * 900000000);
+  var sessionToken = '' + Math.floor(100000000 + Math.random() * 900000000);
+  console.log('sessionToken', sessionToken);
 
   var leadTiedToSession = new lead(sessionToken);
   this.leads[sessionToken] = leadTiedToSession;

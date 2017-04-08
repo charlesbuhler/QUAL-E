@@ -6,6 +6,11 @@ var template = path.join(__dirname, 'templates');
 
 
 module.exports = function (recipient, lead) {
+
+    var unformatedDateData = lead.get('apptDateTime');
+    var unformatedDate = new Date(unformatedDateData);
+    lead.set('apptDateTime', formatDate(unformatedDate));
+    
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -14,10 +19,25 @@ module.exports = function (recipient, lead) {
         }
     });
 
+    function formatDate(date) {
+        var monthNames = [
+          "January", "February", "March",
+          "April", "May", "June", "July",
+          "August", "September", "October",
+          "November", "December"
+        ];
+        
+        var day = date.getDate();
+        var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        
+        return monthNames[monthIndex] + ' ' + day + ', ' + year;
+    }
+
     var referral = new EmailTemplate(template);
 
     referral.render(lead, function (err, result) {
-        
+
         console.log('lead', lead);
         
         // result.html
