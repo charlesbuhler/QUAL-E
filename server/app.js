@@ -2,9 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-const LeadEngine = require('./engines/leadEngine.js');
-
-const leadEngine = LeadEngine.init();
+const leadEngine = require('./engines/leadEngine.js');
 
 // TODO: Replace with react app
 app.get('/', function(req, res){
