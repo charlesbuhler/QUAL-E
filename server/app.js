@@ -17,14 +17,15 @@ io.on('connection', function(socket){
   io.emit('chat message', sessionToken);
 
   socket.on('chat message', function(message){
+    
     var request = AI.sendRequest(message, sessionToken);
-    request.on('response', function(result) {
-      var nlpRsult = jsonToNlp(message);
-      
-      var response = leadEngine.updateLeadFromMessage(nlpRsult);
-      
-      console.log('nlp result', nlpRsult);
-      io.emit('chat message', response);
+    
+    request.on('response', function(response) {
+
+      var nlpRsult = jsonToNlp(response.result);
+      var responseMessage = leadEngine.updateLeadFromMessage(nlpRsult);
+
+      io.emit('chat message', responseMessage);
     });
   });
 

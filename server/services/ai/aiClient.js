@@ -7,12 +7,10 @@ var setConstApp = apiai(AI_CONFIG.ai_client_access_token);
 function AIClient() {}
 
 AIClient.prototype.sendRequest = function (message, sessionToken) {
-  var request = setConstApp.textRequest(message, {
+  return setConstApp.textRequest(message, {
       sessionId: sessionToken
     }
   );
-
-  return request;
 }
 
 

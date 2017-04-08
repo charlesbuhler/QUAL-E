@@ -5,6 +5,10 @@ const jsonToNlp = require('../serializers/JsonToNlp.js');
 const sendEmail = require('../services/email/sendEmail.js');
 
 function LeadEngine() {
+  this.paramMap = {
+     "good_roofs": "roofType" 
+  };
+
   this.leads = {}; //<SessionId, Lead>
 }
 
@@ -23,10 +27,15 @@ LeadEngine.prototype.updateLeadFromMessage = function(nlpResult, sessionToken) {
 
   var currentLead = this.leads[sessionToken];
 
-  // Logic to map params -> lead
   var params = nlpResult.params;
+  for (var key in params) {
+    if (this.paramMap[key]) {
+      lead.set(this.paramMap[key], params[key]);
+    }
+  }
+  
   if (params['good_roofs']) {
-    lead.setRoof('roofType', params['good_roofs']);
+    lead.set(this.paramMap['good_roofs'], params['good_roofs']);
   }
   
   return nlpResult.response;
