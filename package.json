@@ -8,8 +8,10 @@
     "test": "node client/scripts/test.js --env=jsdom"
   },
   "dependencies": {
+    "express": "4.15.2",
     "react": "^15.5.2",
-    "react-dom": "^15.5.2"
+    "react-dom": "^15.5.2",
+    "socket.io": "1.7.3"
   },
   "devDependencies": {
     "autoprefixer": "6.7.2",
