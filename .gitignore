@@ -9,6 +9,9 @@
 # production
 /build
 
+# credentials
+AI_CONFIG.json
+
 # misc
 .DS_Store
 .env
