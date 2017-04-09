@@ -1,16 +1,14 @@
 import React from 'react';
 
-const MessageInput = ({submitMessage, updateMessage, messageInput}) => {
+const MessageInput = ({handleKeyPress, updateMessage, messageInput}) => {
   return (
-    <form onSubmit={submitMessage}>
-      <input
-        type="text"
-        placeholder="message here..."
-        onChange={updateMessage}
-        value={messageInput}
-      />
-      <input type="submit" value="Go"/>
-    </form>
+    <textarea className="input" id="input"
+              type="text"
+              placeholder="message here..."
+              onChange={updateMessage}
+              value={messageInput}
+              onKeyPress={handleKeyPress}
+    />
   );
 };
 

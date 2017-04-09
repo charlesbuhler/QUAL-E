@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import './App.scss';
 import Messages from './Messages';
 import MessageInput from './MessageInput';
-import UsernameInput from './UsernameInput';
 import io from 'socket.io-client';
 
 let socket = io.connect();
@@ -21,16 +21,17 @@ class Chat extends Component {
     this.updateUsername = this.updateUsername.bind(this);
     this.submitUsername = this.submitUsername.bind(this);
     this.updateMessage = this.updateMessage.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.submitMessage = this.submitMessage.bind(this);
   }
 
   componentDidMount() {
     socket.on('chat message', (messageText) => {
-      if(this.state.firstMessage) {
-        this.setState({sessionToken: messageText, firstMessage: false});
+      if (this.state.firstMessage) {
+        return this.setState({sessionToken: messageText, firstMessage: false});
       }
 
-      const message = this.createMessageObj('QUAL-E', messageText);
+      const message = this.createMessageObj('QUAL-E', messageText, false);
       this.addMessageToWindow(message);
     });
   }
@@ -53,10 +54,8 @@ class Chat extends Component {
   }
 
   submitMessage(e) {
-    e.preventDefault();
-
     const { username, messageInput, sessionToken } = this.state;
-    const message = this.createMessageObj(username, messageInput);
+    const message = this.createMessageObj(username, messageInput, true);
 
     socket.emit('chat message',
       {
@@ -66,42 +65,51 @@ class Chat extends Component {
     this.addMessageToWindow(message);
   }
 
-  createMessageObj = (username, messageText) => (
+  createMessageObj = (username, messageText, me) => (
       {
         username,
-        message: messageText
+        message: messageText,
+        me
       }
   );
 
+  handleKeyPress(e) {
+    let key = e.key;
+    if (key === 'Enter') { // enter key
+      e.preventDefault();
+
+      return this.submitMessage(e);
+    }
+  }
 
   addMessageToWindow(messageObj) {
     const { messages } = this.state;
 
     messages.push(messageObj);
-    this.setState({ messages });
+    this.setState({ messages, messageInput: '' });
   }
 
   render() {
-    let input;
-
-    if (!this.state.hasName) {
-      input = <UsernameInput
-        submitUsername={this.submitUsername}
-        updateUsername={this.updateUsername}
-        username={this.state.username}
-      />
-    } else {
-      input = <MessageInput
-        messageInput={this.state.messageInput}
-        updateMessage={this.updateMessage}
-        submitMessage={this.submitMessage}
-      />
-    }
-
     return (
-      <div className="container">
-        <Messages messageList={this.state.messages} />
-        {input}
+      <div>
+        <div className="nav" id="nav">
+          <div className="main-nav">
+            <div className="toggle"></div>
+            <div className="main-nav-item"></div>
+            <div className="options"></div>
+          </div>
+        </div>
+        <div className="inner" id="inner">
+          <Messages messageList={this.state.messages} />
+        </div>
+        <div className="bottom">
+          <MessageInput
+            messageInput={this.state.messageInput}
+            updateMessage={this.updateMessage}
+            handleKeyPress={this.handleKeyPress}
+          />
+          <div className="send" id="send" onClick={this.submitMessage}></div>
+        </div>
       </div>
     );
   }

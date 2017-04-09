@@ -22,7 +22,7 @@ class UsernameInput extends Component {
 
   render() {
     return (
-      <form onSubmit={this.submitUsername}>
+      <form className="input" onSubmit={this.submitUsername}>
         <input
           type="text"
           placeholder="name here..."
@@ -30,6 +30,7 @@ class UsernameInput extends Component {
           value={this.props.username}
         />
         <input type="submit" value="Go" />
+        <div className="send"></div>
       </form>
     );
   }
