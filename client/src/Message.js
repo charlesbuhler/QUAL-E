@@ -13,4 +13,5 @@ const Message = ({ message, me }) => {
     </div>
   );
 };
+
 export default Message;

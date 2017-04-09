@@ -3,6 +3,7 @@ import './App.scss';
 import Messages from './Messages';
 import MessageInput from './MessageInput';
 import io from 'socket.io-client';
+import src from './assets/qualE_image.png';
 
 let socket = io.connect();
 
@@ -34,6 +35,10 @@ class Chat extends Component {
       const message = this.createMessageObj('QUAL-E', messageText, false);
       this.addMessageToWindow(message);
     });
+  }
+
+  componentDidUpdate() {
+    this.elem.scrollTop = this.elem.scrollHeight;
   }
 
   updateUsername(username) {
@@ -93,13 +98,16 @@ class Chat extends Component {
     return (
       <div>
         <div className="nav" id="nav">
-          <div className="main-nav">
-            <div className="toggle"></div>
-            <div className="main-nav-item"></div>
-            <div className="options"></div>
+          <div className="default-nav">
+            <div className="main-nav">
+              {/*<div className="toggle"></div>*/}
+              <img src={src} className="circle-wrapper animated bounceIn quale"></img>
+              <div className="main-nav-item"></div>
+              <div className="options"></div>
+            </div>
           </div>
         </div>
-        <div className="inner" id="inner">
+        <div className="inner" id="inner" ref={(elem) => {this.elem = elem}}>
           <Messages messageList={this.state.messages} />
         </div>
         <div className="bottom">

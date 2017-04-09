@@ -4,7 +4,7 @@ $white: #ffffff;
 $purple: #673AB7;
 $yellow: #FFEB3B;
 $red: #42a5f5;
-$orange: #ef9a9a;
+$orange: #FF5722;
 $black: #333333;
 
 $nav: 100;
@@ -12,6 +12,21 @@ $nav: 100;
 $navHeight: 64px;
 
 $trans: 0.3s ease;
+
+/*$blue: #2196F3;
+$dingy: #495B6A;
+$white: #ffffff;
+$purple: #673AB7;
+$yellow: #FFEB3B;
+$red: #F44336;
+$orange: #FF5722;
+$black: #333333;
+
+$nav: 100;
+
+$navHeight: 64px;
+
+$trans: 0.3s ease;*/
 
 * {
   box-sizing: border-box;
@@ -31,7 +46,7 @@ body {
 
 .wrapper {
   height: 520px;
-  width: 320px;
+  width: 425px;
   overflow: hidden;
   background-color: white;
   position: fixed;
@@ -63,6 +78,13 @@ body {
   }
 
   transition: $trans;
+}
+
+.quale {
+  float: left;
+  height: 55px;
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
 .nav {
@@ -252,7 +274,7 @@ body {
     font-weight: 300;
     position: relative;
     /* word-break: break-all; */
-    font-size: 12px;
+    font-size: 18px;
 
     &:before {
       content: '';
